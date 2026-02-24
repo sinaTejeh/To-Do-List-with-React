@@ -19,16 +19,32 @@ function App() {
     })
   };
 
+  function handleAddTask(tasksData) {
+    const taskId = Math.random()
+    const newTask = {
+      ...tasksData,
+      id: taskId,
+    }
+
+    setTasksState(prevTasks => {
+      return {
+        ...prevTasks,
+        selectedTaskId: undefined,
+        tasks: [...prevTasks.tasks, newTask]
+      }
+    })
+  };
+
   let content;
   if (tasksState.selectedTaskId === null) {
-    content = <NewTask />
+    content = <NewTask onAdd={handleAddTask} />
   } else if (tasksState.selectedTaskId === undefined) {
     content = <NoTaskSelected onStartAddTask={handleStartTask} />
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <Sidebar onStartAddTask={handleStartTask} />
+      <Sidebar onStartAddTask={handleStartTask} tasks={tasksState.tasks} />
       {content}
     </main>
   );
