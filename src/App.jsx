@@ -19,6 +19,15 @@ function App() {
     })
   };
 
+  const handleCancelTask = function () {
+    setTasksState(prevTasks => {
+      return {
+        ...prevTasks,
+        selectedTaskId: undefined
+      }
+    })
+  };
+
   function handleAddTask(tasksData) {
     const taskId = Math.random()
     const newTask = {
@@ -37,7 +46,7 @@ function App() {
 
   let content;
   if (tasksState.selectedTaskId === null) {
-    content = <NewTask onAdd={handleAddTask} />
+    content = <NewTask onAdd={handleAddTask} onCancel={handleCancelTask} />
   } else if (tasksState.selectedTaskId === undefined) {
     content = <NoTaskSelected onStartAddTask={handleStartTask} />
   }
