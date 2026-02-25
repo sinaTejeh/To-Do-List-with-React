@@ -54,9 +54,20 @@ function App() {
     })
   };
 
+  const handleDeleteTask = function () {
+    setTasksState(prevTasks => {
+      return {
+        ...prevTasks,
+        selectedTaskId: undefined,
+        tasks: prevTasks.tasks.filter(task => task.id !== prevTasks.selectedTaskId)
+      }
+    })
+  };
+
+
   const selectedTask = tasksState.tasks.find(task => task.id === tasksState.selectedTaskId);
 
-  let content = <SelectedTask task={selectedTask} />;
+  let content = <SelectedTask task={selectedTask} onDelete={handleDeleteTask} />;
   if (tasksState.selectedTaskId === null) {
     content = <NewTask onAdd={handleAddTask} onCancel={handleCancelTask} />
   } else if (tasksState.selectedTaskId === undefined) {
