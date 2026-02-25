@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import NewTask from "./components/NewTask";
-import NoTaskSelected from "./components/NoTaskSelected";
-import Sidebar from "./components/Sidebar";
+import NewTask from "./components/NewTask.jsx";
+import NoTaskSelected from "./components/NoTaskSelected.jsx";
+import Sidebar from "./components/Sidebar.jsx";
+import SelectedTask from "./components/SelectedTask.jsx";
 
 function App() {
   const [tasksState, setTasksState] = useState({
@@ -10,13 +11,22 @@ function App() {
     tasks: []
   });
 
+  const handleSelectTask = function (id) {
+    setTasksState(prevTasks => {
+      return {
+        ...prevTasks,
+        selectedTaskId: id,
+      }
+    });
+  };
+
   const handleStartTask = function () {
     setTasksState(prevTasks => {
       return {
         ...prevTasks,
         selectedTaskId: null,
       }
-    })
+    });
   };
 
   const handleCancelTask = function () {
@@ -44,7 +54,9 @@ function App() {
     })
   };
 
-  let content;
+  const selectedTask = tasksState.tasks.find(task => task.id === tasksState.selectedTaskId);
+
+  let content = <SelectedTask task={selectedTask} />;
   if (tasksState.selectedTaskId === null) {
     content = <NewTask onAdd={handleAddTask} onCancel={handleCancelTask} />
   } else if (tasksState.selectedTaskId === undefined) {
@@ -53,7 +65,7 @@ function App() {
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <Sidebar onStartAddTask={handleStartTask} tasks={tasksState.tasks} />
+      <Sidebar onStartAddTask={handleStartTask} tasks={tasksState.tasks} onSelectTask={handleSelectTask} selectedTaskId={tasksState.selectedTaskId} />
       {content}
     </main>
   );
