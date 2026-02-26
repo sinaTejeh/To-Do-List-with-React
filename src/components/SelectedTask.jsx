@@ -1,3 +1,5 @@
+import SubTasks from "./SubTasks.jsx";
+
 export default function SelectedTask({ task, onDelete }) {
     const formattedDate = new Date(task.date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -14,6 +16,7 @@ export default function SelectedTask({ task, onDelete }) {
                 <p className="mb-4 text-stone-500">{formattedDate}</p>
                 <p className="text-stone-600 whitespace-pre-wrap ">{task.description}</p>
             </header>
+            <SubTasks />
         </div>
     );
 }
